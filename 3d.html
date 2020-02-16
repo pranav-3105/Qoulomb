@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+       <style>
+           
+/* Slick Slider */
+
+section {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.simple blockquote { width: 100%; margin: 0px; height: 100%; display: block; padding-top: 100px; padding-bottom: 100px;  min-height: 400px;
+}
+.simple blockquote#agedcare { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-agedcare.jpg") repeat scroll center center / cover ; }
+.simple blockquote#breathe { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-breathe.jpg") repeat scroll center center / cover ; }
+.simple blockquote#ensohomes { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-ensohomes.jpg") repeat scroll center center / cover ; }
+
+.simple blockquote p {
+  font-family: Baskerville;
+	color: #ffffff;
+	padding: 25px;
+	font-size: 45px;
+	font-style: italic;
+	text-align: center;
+}
+.simple cite {
+  font-family: ProximaNova, Helvetica Neue;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-style: normal;
+  font-size: 13px;
+	text-align: center;
+	color: #b5b5b5;
+  display: block;
+  text-transform: uppercase;
+}
+.simple .play-button {
+  width: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.slick-dots {
+    bottom: -10px;
+}
+.slick-dots li {
+  width: 80px;
+  background: #ffffff;
+  height: 80px;
+  border-radius:100px;
+  text-align: center;
+}
+.slick-dots li button {
+    height: 125px;
+    width: 91px;
+  opacity:0.8;
+  margin: 0;
+}
+.slick-dots li:nth-child(1) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-agedcare.png") no-repeat scroll center center / 91px 125px;
+}
+.slick-dots li:nth-child(2) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-ensohomes.png") no-repeat scroll center top / 91px 125px;
+}
+.slick-dots li:nth-child(3) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-breathe.png") no-repeat scroll center top / 91px 125px;
+}
+
+.slick-dots li.slick-active button::before {
+  opacity: 1;
+}
+.slick-dots li button::before {
+  content: "";
+}
+
+
+/* A custom cursor to let folks know they can drag things */
+
+.wistia_responsive_wrapper {
+  visibility:hidden; 
+  height:100%;
+  left:0;
+  position:absolute;
+  top:0;
+  width:100%;
+  transition: opacity 0.6s ease;
+  opacity: 0;
+}
+.wistia_responsive_wrapper.playing {
+  visibility: inherit;
+  opacity: 1;
+  z-index: 99999;
+}
+
+       </style>
+    </head>
+    <body>
+        
+
+        <div class="bg"></bg>
+
+            <section role="complementary" id="testimonial-videos" class="simple quotes no-fouc">
+              <blockquote id="agedcare" class="current">
+                <p>“After 18 months, we’ve got a 49% increase. I’d never go back to NOT using King Kong.”</p>
+                <cite>Beth Hourigan, Aged Care Financial Services</cite> 
+                <img src="https://kingkong.com.au/wp-content/uploads/2017/03/play-button.png" class="play-button">
+                
+                <div class="wistia_responsive_wrapper"><iframe src="https://fast.wistia.net/embed/iframe/pzird5dezi?seo=false&videoFoam=true" title="Wistia video player" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="100%" height="100%"></iframe></div>
+            
+              </blockquote>
+              <blockquote id="ensohomes">
+               <p>“The goal was to get 8 sales in the first year. It’s been 11 months now and we’ve had 23 sales. Which is $7 million in revenue. The money I spent with King Kong I’ve seen a return on investment of five to six times.”
+            </p>
+                <cite>Lee Selkrig, Director Enso Homes</cite> 
+                <img src="https://kingkong.com.au/wp-content/uploads/2017/03/play-button.png" class="play-button">
+                
+                 
+                 <div class="wistia_responsive_wrapper"><iframe src="https://fast.wistia.net/embed/iframe/sksg23xja4?seo=false&videoFoam=true&autoPlay=true" title="Wistia video player" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="100%" height="100%"></iframe></div>
+            
+              </blockquote>
+              <blockquote id="breathe">
+               <p>“King Kong are so amazing I love them sooooo much!”.</p>
+                <cite>Beth Hourigan, Aged Care Financial Services</cite>   
+                <img src="https://kingkong.com.au/wp-content/uploads/2017/03/play-button.png" class="play-button">
+                
+                   <div class="wistia_responsive_wrapper"><iframe src="https://fast.wistia.net/embed/iframe/jn3thejtd8?seo=false&videoFoam=true" title="Wistia video player" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="100%" height="100%"></iframe></div>
+                
+              </blockquote>
+              
+            </section>
+            <script src="js/jquery-2.1.1.js"></script>
+    <script>
+        /*
+This is a super simple slider using Ken Wheeler's "Slick Slider." 
+It's responsive, swipable and light weight.
+
+Visit Ken's site for the source code and docs. 
+
+Source: https://kenwheeler.github.io/slick/
+
+*/
+
+
+/*
+The following executes Ken's Slick Slider with several options.
+*/
+
+$('.quotes').slick({
+  dots: true,
+  infinite: true,
+  autoplay: false,
+  speed: 800,
+  slidesToShow: 1,
+  adaptiveHeight: false,
+  draggable: false,
+  fade: true,
+});
+
+
+/*
+To prevent the flashing of unstyled content (FOUC) I created a class ".no-fouc"
+which hides the slider.  When everything is ready to roll, I simply remove the
+.no-fouc class from the slider section using the script below.  I placed the CSS snippet in the head of the HTML
+page so that it's loaded before other things for obvious reasons.  What about folks with JS turned off?  
+Well, I don't worry about them too much anymore.  Oh my.  I feel the heat from the flames already.  :) 
+*/
+
+$( document ).ready(function() {
+$('.no-fouc').removeClass('no-fouc');
+});
+
+
+// on click of the play button show the video
+$('.play-button').click( function() {
+  $('.wistia_responsive_wrapper').removeClass('playing');
+  $(this).next().addClass('playing');
+  $('.slick-dots')
+});
+
+$('.slick-dots').click( function() {
+  $('.wistia_responsive_wrapper').removeClass('playing');
+});
+
+/*
+$('.slick-dots').click( function() {
+  $(this).next().css('visibility', 'inherit');
+});
+*/
+
+
+    </script>
+    
+    </body>
+</html>

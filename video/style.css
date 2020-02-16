@@ -1,0 +1,91 @@
+/* Slick Slider */
+
+section {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.simple blockquote { width: 100%; margin: 0px; height: 100%; display: block; padding-top: 100px; padding-bottom: 100px;  min-height: 400px;
+}
+.simple blockquote#agedcare { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-agedcare.jpg") repeat scroll center center / cover ; }
+.simple blockquote#breathe { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-breathe.jpg") repeat scroll center center / cover ; }
+.simple blockquote#ensohomes { background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-bg-ensohomes.jpg") repeat scroll center center / cover ; }
+
+.simple blockquote p {
+  font-family: Baskerville;
+	color: #ffffff;
+	padding: 25px;
+	font-size: 45px;
+	font-style: italic;
+	text-align: center;
+}
+.simple cite {
+  font-family: ProximaNova, Helvetica Neue;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-style: normal;
+  font-size: 13px;
+	text-align: center;
+	color: #b5b5b5;
+  display: block;
+  text-transform: uppercase;
+}
+.simple .play-button {
+  width: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.slick-dots {
+    bottom: -10px;
+}
+.slick-dots li {
+  width: 80px;
+  background: #ffffff;
+  height: 80px;
+  border-radius:100px;
+  text-align: center;
+}
+.slick-dots li button {
+    height: 125px;
+    width: 91px;
+  opacity:0.8;
+  margin: 0;
+}
+.slick-dots li:nth-child(1) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-agedcare.png") no-repeat scroll center center / 91px 125px;
+}
+.slick-dots li:nth-child(2) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-ensohomes.png") no-repeat scroll center top / 91px 125px;
+}
+.slick-dots li:nth-child(3) button {
+  background: rgba(0, 0, 0, 0) url("https://kingkong.com.au/wp-content/uploads/2017/03/testimonial-button-breathe.png") no-repeat scroll center top / 91px 125px;
+}
+
+.slick-dots li.slick-active button::before {
+  opacity: 1;
+}
+.slick-dots li button::before {
+  content: "";
+}
+
+
+/* A custom cursor to let folks know they can drag things */
+
+.wistia_responsive_wrapper {
+  visibility:hidden; 
+  height:100%;
+  left:0;
+  position:absolute;
+  top:0;
+  width:100%;
+  transition: opacity 0.6s ease;
+  opacity: 0;
+}
+.wistia_responsive_wrapper.playing {
+  visibility: inherit;
+  opacity: 1;
+  z-index: 99999;
+}
