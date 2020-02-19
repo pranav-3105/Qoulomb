@@ -682,3 +682,8 @@ main.scale-down {
     border-right-width: 1px solid #e0cf75;
   }
 }
+
+.mini li{
+  width: 50%;
+  float:left;
+}
