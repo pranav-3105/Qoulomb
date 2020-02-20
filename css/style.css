@@ -683,7 +683,9 @@ main.scale-down {
   }
 }
 
-.mini li{
-  width: 50%;
-  float:left;
+#logo{
+  background: url("../images/logo.png");
+  position: absolute;
+  left: 5%;
+  top: 10%;
 }

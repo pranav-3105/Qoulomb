@@ -5,8 +5,8 @@ jQuery(document).ready(function($){
 		maxQuickWidth = 900;
 
 	//open the quick view panel
-	$('.cd-trigger').on('click', function(event){
-		var selectedImage = $(this).parent('.cd-item').children('img'),
+	$('.cdp-trigger').on('click', function(event){
+		var selectedImage = $(this).parent('.cdp-item').children('img'),
 			slectedImageUrl = selectedImage.attr('src');
 
 		$('body').addClass('overlay-layer');
@@ -19,7 +19,7 @@ jQuery(document).ready(function($){
 
 	//close the quick view panel
 	$('body').on('click', function(event){
-		if( $(event.target).is('.cd-close') || $(event.target).is('body.overlay-layer')) {
+		if( $(event.target).is('.cdp-close') || $(event.target).is('body.overlay-layer')) {
 			closeQuickView( sliderFinalWidth, maxQuickWidth);
 		}
 	});
@@ -31,21 +31,21 @@ jQuery(document).ready(function($){
 	});
 
 	//quick view slider implementation
-	$('.cd-quick-view').on('click', '.cd-slider-navigation a', function(){
+	$('.cdp-quick-view').on('click', '.cdp-slider-navigation a', function(){
 		updateSlider($(this));
 	});
 
 	//center quick-view on window resize
 	$(window).on('resize', function(){
-		if($('.cd-quick-view').hasClass('is-visible')){
+		if($('.cdp-quick-view').hasClass('is-visible')){
 			window.requestAnimationFrame(resizeQuickView);
 		}
 	});
 
 	function updateSlider(navigation) {
-		var sliderConatiner = navigation.parents('.cd-slider-wrapper').find('.cd-slider'),
+		var sliderConatiner = navigation.parents('.cdp-slider-wrapper').find('.cdp-slider'),
 			activeSlider = sliderConatiner.children('.selected').removeClass('selected');
-		if ( navigation.hasClass('cd-next') ) {
+		if ( navigation.hasClass('cdp-next') ) {
 			( !activeSlider.is(':last-child') ) ? activeSlider.next().addClass('selected') : sliderConatiner.children('li').eq(0).addClass('selected'); 
 		} else {
 			( !activeSlider.is(':first-child') ) ? activeSlider.prev().addClass('selected') : sliderConatiner.children('li').last().addClass('selected');
@@ -53,24 +53,24 @@ jQuery(document).ready(function($){
 	}
 
 	function updateQuickView(url) {
-		$('.cd-quick-view .cd-slider li').removeClass('selected').find('img[src="'+ url +'"]').parent('li').addClass('selected');
+		$('.cdp-quick-view .cdp-slider li').removeClass('selected').find('img[src="'+ url +'"]').parent('li').addClass('selected');
 	}
 
 	function resizeQuickView() {
-		var quickViewLeft = ($(window).width() - $('.cd-quick-view').width())/2,
-			quickViewTop = ($(window).height() - $('.cd-quick-view').height())/2;
-		$('.cd-quick-view').css({
+		var quickViewLeft = ($(window).width() - $('.cdp-quick-view').width())/2,
+			quickViewTop = ($(window).height() - $('.cdp-quick-view').height())/2;
+		$('.cdp-quick-view').css({
 		    "top": quickViewTop,
 		    "left": quickViewLeft,
 		});
 	} 
 
 	function closeQuickView(finalWidth, maxQuickWidth) {
-		var close = $('.cd-close'),
-			activeSliderUrl = close.siblings('.cd-slider-wrapper').find('.selected img').attr('src'),
+		var close = $('.cdp-close'),
+			activeSliderUrl = close.siblings('.cdp-slider-wrapper').find('.selected img').attr('src'),
 			selectedImage = $('.empty-box').find('img');
 		//update the image in the gallery
-		if( !$('.cd-quick-view').hasClass('velocity-animating') && $('.cd-quick-view').hasClass('add-content')) {
+		if( !$('.cdp-quick-view').hasClass('velocity-animating') && $('.cdp-quick-view').hasClass('add-content')) {
 			selectedImage.attr('src', activeSliderUrl);
 			animateQuickView(selectedImage, finalWidth, maxQuickWidth, 'close');
 		} else {
@@ -81,7 +81,7 @@ jQuery(document).ready(function($){
 	function animateQuickView(image, finalWidth, maxQuickWidth, animationType) {
 		//store some image data (width, top position, ...)
 		//store window data to calculate quick view panel position
-		var parentListItem = image.parent('.cd-item'),
+		var parentListItem = image.parent('.cdp-item'),
 			topSelected = image.offset().top - $(window).scrollTop(),
 			leftSelected = image.offset().left,
 			widthSelected = image.width(),
@@ -98,7 +98,7 @@ jQuery(document).ready(function($){
 			//hide the image in the gallery
 			parentListItem.addClass('empty-box');
 			//place the quick view over the image gallery and give it the dimension of the gallery image
-			$('.cd-quick-view').css({
+			$('.cdp-quick-view').css({
 			    "top": topSelected,
 			    "left": leftSelected,
 			    "width": widthSelected,
@@ -110,42 +110,42 @@ jQuery(document).ready(function($){
 			    'width': finalWidth+'px',
 			}, 1000, [ 400, 20 ], function(){
 				//animate the quick view: animate its width to the final value
-				$('.cd-quick-view').addClass('animate-width').velocity({
+				$('.cdp-quick-view').addClass('animate-width').velocity({
 					'left': quickViewLeft+'px',
 			    	'width': quickViewWidth+'px',
 				}, 300, 'ease' ,function(){
 					//show quick view content
-					$('.cd-quick-view').addClass('add-content');
+					$('.cdp-quick-view').addClass('add-content');
 				});
 			}).addClass('is-visible');
 		} else {
 			//close the quick view reverting the animation
-			$('.cd-quick-view').removeClass('add-content').velocity({
+			$('.cdp-quick-view').removeClass('add-content').velocity({
 			    'top': finalTop+ 'px',
 			    'left': finalLeft+'px',
 			    'width': finalWidth+'px',
 			}, 300, 'ease', function(){
 				$('body').removeClass('overlay-layer');
-				$('.cd-quick-view').removeClass('animate-width').velocity({
+				$('.cdp-quick-view').removeClass('animate-width').velocity({
 					"top": topSelected,
 				    "left": leftSelected,
 				    "width": widthSelected,
 				}, 500, 'ease', function(){
-					$('.cd-quick-view').removeClass('is-visible');
+					$('.cdp-quick-view').removeClass('is-visible');
 					parentListItem.removeClass('empty-box');
 				});
 			});
 		}
 	}
 	function closeNoAnimation(image, finalWidth, maxQuickWidth) {
-		var parentListItem = image.parent('.cd-item'),
+		var parentListItem = image.parent('.cdp-item'),
 			topSelected = image.offset().top - $(window).scrollTop(),
 			leftSelected = image.offset().left,
 			widthSelected = image.width();
 
 		$('body').removeClass('overlay-layer');
 		parentListItem.removeClass('empty-box');
-		$('.cd-quick-view').velocity("stop").removeClass('add-content animate-width is-visible').css({
+		$('.cdp-quick-view').velocity("stop").removeClass('add-content animate-width is-visible').css({
 			"top": topSelected,
 		    "left": leftSelected,
 		    "width": widthSelected,

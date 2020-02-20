@@ -20,7 +20,7 @@ body {
   background-color: #47374e;
 }
 body::after {
-  /* dark overlay layer - visible when we fire .cd-quick-view */
+  /* dark overlay layer - visible when we fire .cdp-quick-view */
   position: fixed;
   top: 0;
   left: 0;
@@ -57,13 +57,13 @@ img {
 Modules - reusable parts of our design
 
 -------------------------------- */
-.cd-container {
+.cdp-container {
   /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
   width: 90%;
   max-width: 1170px;
   margin: 0 auto;
 }
-.cd-container:after {
+.cdp-container:after {
   content: "";
   display: table;
   clear: both;
@@ -106,52 +106,52 @@ header h1 {
   }
 }
 
-.cd-items {
+.cdp-items {
   padding: 1em 0;
 }
 @media only screen and (min-width: 768px) {
-  .cd-items {
+  .cdp-items {
     padding: 2em 0 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  .cd-items {
+  .cdp-items {
     padding: 4em 0 0;
   }
 }
 
-.cd-item {
+.cdp-item {
   position: relative;
   margin: 0 0 1em;
 }
-.cd-item > img {
+.cdp-item > img {
   display: block;
   width: 100%;
 }
 @media only screen and (min-width: 768px) {
-  .cd-item {
+  .cdp-item {
     width: 48%;
     float: left;
     margin: 0 4% 2em 0;
   }
-  .cd-item:nth-child(2n) {
+  .cdp-item:nth-child(2n) {
     margin-right: 0;
   }
 }
 @media only screen and (min-width: 1024px) {
-  .cd-item {
+  .cdp-item {
     width: 22%;
     float: left;
     margin: 0 4% 2.8em 0;
   }
-  .cd-item:nth-child(2n) {
+  .cdp-item:nth-child(2n) {
     margin-right: 4%;
   }
-  .cd-item:nth-child(4n) {
+  .cdp-item:nth-child(4n) {
     margin-right: 0;
   }
-  .cd-item.empty-box::after {
-    /* box visible as placeholder when the .cd-quick-view zooms in */
+  .cdp-item.empty-box::after {
+    /* box visible as placeholder when the .cdp-quick-view zooms in */
     position: absolute;
     top: 0;
     left: 0;
@@ -161,7 +161,7 @@ header h1 {
   }
 }
 
-.cd-trigger {
+.cdp-trigger {
   position: absolute;
   height: 50px;
   line-height: 50px;
@@ -179,38 +179,38 @@ header h1 {
   -moz-transition: opacity 0.2s, background-color 0.2s;
   transition: opacity 0.2s, background-color 0.2s;
 }
-.no-touch .cd-trigger:hover {
+.no-touch .cdp-trigger:hover {
   background: rgba(0, 0, 0, 0.2);
 }
 @media only screen and (min-width: 1024px) {
-  .cd-trigger {
+  .cdp-trigger {
     /* always visible on small devices */
     visibility: visible;
     opacity: 1;
   }
 }
 @media only screen and (min-width: 1170px) {
-  .cd-trigger {
+  .cdp-trigger {
     /* only visible on hover on big devices */
     opacity: 0;
   }
 }
 
 @media only screen and (min-width: 1170px) {
-  .no-touch .cd-item:hover .cd-trigger {
+  .no-touch .cdp-item:hover .cdp-trigger {
     opacity: 1;
   }
 
-  .touch .cd-item .cd-trigger {
+  .touch .cdp-item .cdp-trigger {
     opacity: 1;
   }
 }
-.cd-quick-view {
+.cdp-quick-view {
   /* quick view non available on small devices */
   display: none;
 }
 @media only screen and (min-width: 1024px) {
-  .cd-quick-view {
+  .cdp-quick-view {
     display: block;
     position: fixed;
     max-width: 900px;
@@ -226,16 +226,16 @@ header h1 {
     will-change: left, top, width;
     z-index: 1;
   }
-  .cd-quick-view:after {
+  .cdp-quick-view:after {
     content: "";
     display: table;
     clear: both;
   }
-  .cd-quick-view.is-visible {
-    /* class added when user clicks on .cd-trigger */
+  .cdp-quick-view.is-visible {
+    /* class added when user clicks on .cdp-trigger */
     visibility: visible;
   }
-  .cd-quick-view.animate-width {
+  .cdp-quick-view.animate-width {
     /* class added at the end of the first zoom-in animation */
     background-color: #ffffff;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
@@ -245,47 +245,47 @@ header h1 {
   }
 }
 
-.cd-slider-wrapper {
+.cdp-slider-wrapper {
   position: relative;
   display: inline-block;
   float: left;
 }
-.cd-slider-wrapper:after {
+.cdp-slider-wrapper:after {
   content: "";
   display: table;
   clear: both;
 }
 
-.cd-slider {
+.cdp-slider {
   float: left;
 }
-.cd-slider li {
+.cdp-slider li {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
 }
-.cd-slider li img {
+.cdp-slider li img {
   display: block;
   width: 100%;
   max-width: 400px;
 }
-.cd-slider li.selected {
+.cdp-slider li.selected {
   position: relative;
   z-index: 3;
 }
-.add-content .cd-slider {
+.add-content .cdp-slider {
   margin-right: 3em;
 }
 
-.cd-slider-navigation {
+.cdp-slider-navigation {
   opacity: 0;
 }
-.add-content .cd-slider-navigation {
+.add-content .cdp-slider-navigation {
   opacity: 1;
 }
 
-.cd-slider-navigation li {
+.cdp-slider-navigation li {
   position: absolute;
   top: 50%;
   bottom: auto;
@@ -296,14 +296,14 @@ header h1 {
   transform: translateY(-50%);
   z-index: 3;
 }
-.cd-slider-navigation li:first-child {
+.cdp-slider-navigation li:first-child {
   left: 0;
 }
-.cd-slider-navigation li:last-child {
-  /* equal to the .cd-slider-wrapper margin-right */
+.cdp-slider-navigation li:last-child {
+  /* equal to the .cdp-slider-wrapper margin-right */
   right: 3em;
 }
-.cd-slider-navigation li a {
+.cdp-slider-navigation li a {
   display: block;
   width: 40px;
   height: 50px;
@@ -323,7 +323,7 @@ header h1 {
   -moz-transition: opacity 0.2s, background 0.2s;
   transition: opacity 0.2s, background 0.2s;
 }
-.cd-slider-navigation li a::before, .cd-slider-navigation li a::after {
+.cdp-slider-navigation li a::before, .cdp-slider-navigation li a::after {
   /* create arrows in CSS */
   position: absolute;
   top: 18px;
@@ -333,38 +333,38 @@ header h1 {
   height: 3px;
   width: 12px;
 }
-.cd-slider-navigation li a::before {
+.cdp-slider-navigation li a::before {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.cd-slider-navigation li a::after {
+.cdp-slider-navigation li a::after {
   -webkit-transform: translateY(7px) rotate(-45deg);
   -moz-transform: translateY(7px) rotate(-45deg);
   -ms-transform: translateY(7px) rotate(-45deg);
   -o-transform: translateY(7px) rotate(-45deg);
   transform: translateY(7px) rotate(-45deg);
 }
-.add-content .cd-slider-navigation li a {
+.add-content .cdp-slider-navigation li a {
   opacity: .2;
 }
-.no-touch .cd-slider-navigation li a:hover {
+.no-touch .cdp-slider-navigation li a:hover {
   background: rgba(71, 55, 78, 0.8);
   opacity: 1;
 }
-.touch .cd-slider-navigation li a {
+.touch .cdp-slider-navigation li a {
   opacity: 1;
 }
-.cd-slider-navigation li:first-child a::before {
+.cdp-slider-navigation li:first-child a::before {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
-.cd-slider-navigation li:first-child a::after {
+.cdp-slider-navigation li:first-child a::after {
   -webkit-transform: translateY(7px) rotate(45deg);
   -moz-transform: translateY(7px) rotate(45deg);
   -ms-transform: translateY(7px) rotate(45deg);
@@ -372,7 +372,7 @@ header h1 {
   transform: translateY(7px) rotate(45deg);
 }
 
-.cd-item-info {
+.cdp-item-info {
   position: absolute;
   padding: 3em 3em 3em 0;
   visibility: hidden;
@@ -381,23 +381,23 @@ header h1 {
   -moz-transition: opacity .3s, visibility 0s;
   transition: opacity .3s, visibility 0s;
 }
-.cd-item-info h2 {
+.cdp-item-info h2 {
   font-size: 28px;
   font-size: 1.75rem;
 }
-.cd-item-info p {
+.cdp-item-info p {
   line-height: 1.6;
   margin: 1em 0;
   color: #67919c;
 }
-.cd-item-info .cd-item-action li {
+.cdp-item-info .cdp-item-action li {
   display: inline-block;
   margin-right: 1em;
 }
-.cd-item-info .cd-item-action li:first-child {
+.cdp-item-info .cdp-item-action li:first-child {
   margin-left: -4px;
 }
-.cd-item-info .add-to-cart {
+.cdp-item-info .add-to-cart {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -415,29 +415,29 @@ header h1 {
   font-size: 1rem;
   cursor: pointer;
 }
-.add-content .cd-item-info {
+.add-content .cdp-item-info {
   /* class added at the end of the width animation, used to show the content */
   position: relative;
   visibility: visible;
   opacity: 1;
 }
-.add-content .cd-item-info h2 {
-  -webkit-animation: cd-slide-in 0.3s;
-  -moz-animation: cd-slide-in 0.3s;
-  animation: cd-slide-in 0.3s;
+.add-content .cdp-item-info h2 {
+  -webkit-animation: cdp-slide-in 0.3s;
+  -moz-animation: cdp-slide-in 0.3s;
+  animation: cdp-slide-in 0.3s;
 }
-.add-content .cd-item-info p {
-  -webkit-animation: cd-slide-in 0.4s;
-  -moz-animation: cd-slide-in 0.4s;
-  animation: cd-slide-in 0.4s;
+.add-content .cdp-item-info p {
+  -webkit-animation: cdp-slide-in 0.4s;
+  -moz-animation: cdp-slide-in 0.4s;
+  animation: cdp-slide-in 0.4s;
 }
-.add-content .cd-item-info .cd-item-action {
-  -webkit-animation: cd-slide-in 0.5s;
-  -moz-animation: cd-slide-in 0.5s;
-  animation: cd-slide-in 0.5s;
+.add-content .cdp-item-info .cdp-item-action {
+  -webkit-animation: cdp-slide-in 0.5s;
+  -moz-animation: cdp-slide-in 0.5s;
+  animation: cdp-slide-in 0.5s;
 }
 
-@-webkit-keyframes cd-slide-in {
+@-webkit-keyframes cdp-slide-in {
   0% {
     -webkit-transform: translate3d(-40px, 0, 0);
   }
@@ -445,7 +445,7 @@ header h1 {
     -webkit-transform: translate3d(0, 0, 0);
   }
 }
-@-moz-keyframes cd-slide-in {
+@-moz-keyframes cdp-slide-in {
   0% {
     -moz-transform: translate3d(-40px, 0, 0);
   }
@@ -453,7 +453,7 @@ header h1 {
     -moz-transform: translate3d(0, 0, 0);
   }
 }
-@keyframes cd-slide-in {
+@keyframes cdp-slide-in {
   0% {
     -webkit-transform: translate3d(-40px, 0, 0);
     -moz-transform: translate3d(-40px, 0, 0);
@@ -469,7 +469,7 @@ header h1 {
     transform: translate3d(0, 0, 0);
   }
 }
-.cd-close {
+.cdp-close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -490,7 +490,7 @@ header h1 {
   -moz-transition: -moz-transform .3s 0s, visibility 0s .3s;
   transition: transform .3s 0s, visibility 0s .3s;
 }
-.cd-close::before, .cd-close::after {
+.cdp-close::before, .cdp-close::after {
   /* close icon in css */
   position: absolute;
   top: 12px;
@@ -502,28 +502,28 @@ header h1 {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-.cd-close::before {
+.cdp-close::before {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.cd-close::after {
+.cdp-close::after {
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
   -ms-transform: rotate(135deg);
   -o-transform: rotate(135deg);
   transform: rotate(135deg);
 }
-.no-touch .cd-close:hover {
+.no-touch .cdp-close:hover {
   -webkit-transform: scale(1.2);
   -moz-transform: scale(1.2);
   -ms-transform: scale(1.2);
   -o-transform: scale(1.2);
   transform: scale(1.2);
 }
-.add-content .cd-close {
+.add-content .cdp-close {
   visibility: visible;
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
