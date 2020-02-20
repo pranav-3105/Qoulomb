@@ -13,11 +13,7 @@ Primary style
 -------------------------------- */
 
 *, *::after, *::before {
-	@include box-sizing(border-box);
-}
-
-html, body {
-	height: 100%;
+	box-sizing: border-box;
 }
 
 html {
@@ -29,17 +25,27 @@ body {
 		size: 1.6rem;
 		family: $primary-font; // variables inside partials > _variables.scss
 	}
-	color: $color-1;
-	background-color: $color-3;
+	color: $color-6;
+	background-color: shade($color-1, 20%);
+	@include font-smoothing;
+
+	&::before {
+		/* never visible - this is used in jQuery to check the current MQ */ 
+		content: 'mobile';
+		display: none;
+	}
 
 	@include MQ(L) {
-		/* hide horizontal scroll bar in IE */
-		overflow-x: hidden;
+		
+		&::before {
+			/* never visible - this is used in jQuery to check the current MQ */ 
+			content: 'desktop';
+		}
 	}
 }
 
 a {
-	color: $color-2;
+	color: $color-3;
 	text-decoration: none;
 }
 
@@ -49,157 +55,172 @@ Main Components
 
 -------------------------------- */
 
-.cd-header {
-	position: relative;
-	height: 100%;
-	background-color: $color-2;
-	box-shadow: 0 4px 20px rgba(#000, .3);
-	z-index: 1;
+body[data-hijacking="on"] {
+	
+	@include MQ(L) {
+		overflow: hidden;
+	}
+}
 
-	h1 {
-		width: 90%;
-		color: $color-3;
+.cd-section {
+	height: 100vh;
+
+	h2 {
+		line-height: 100vh;
 		text-align: center;
-		font-size: 2.2rem;
-		@include font-smoothing;
-		position: absolute;
-		@include center; // see partials > _mixins.scss
+		font-size: 2.4rem;
 	}
 
-	@include MQ(M) {
-		h1 {
-			font-size: 3.6rem;
+	&:first-of-type > div {
+		background-color: $color-1;
+
+		&::before {
+			/* alert -> all scrolling effects are not visible on small devices */
+			content: 'Effects not visible on mobile!';
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			top: 20px;
+			z-index: 2;	
+			font-weight: bold;
+			font-size: 1.3rem;
+			text-transform: uppercase;
+			color: tint($color-1, 30%);
+		}
+	}
+
+	&:nth-of-type(2) > div {
+		background-color: $color-2;
+	}
+
+	&:nth-of-type(3) > div {
+		background-color: $color-3;
+	}
+
+	&:nth-of-type(4) > div {
+		background-color: $color-4;
+	}
+
+	&:nth-of-type(5) > div {
+		background-color: $color-5;
+	}
+
+	[data-animation="parallax"] & > div,
+	[data-animation="fixed"] & > div,
+	[data-animation="opacity"] & > div {
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	[data-animation="parallax"] &:first-of-type > div,
+	[data-animation="fixed"] &:first-of-type > div,
+	[data-animation="opacity"] &:first-of-type > div {
+		background-image: url('../img/img-1.jpg');
+	}
+
+	[data-animation="parallax"] &:nth-of-type(2) > div,
+	[data-animation="fixed"] &:nth-of-type(2) > div,
+	[data-animation="opacity"] &:nth-of-type(2) > div {
+		background-image: url('../img/img-2.jpg');
+	}
+
+	[data-animation="parallax"] &:nth-of-type(3) > div,
+	[data-animation="fixed"] &:nth-of-type(3) > div,
+	[data-animation="opacity"] &:nth-of-type(3) > div {
+		background-image: url('../img/img-3.jpg');
+	}
+
+	[data-animation="parallax"] &:nth-of-type(4) > div,
+	[data-animation="fixed"] &:nth-of-type(4) > div,
+	[data-animation="opacity"] &:nth-of-type(4) > div {
+		background-image: url('../img/img-4.jpg');
+	}
+
+	[data-animation="parallax"] &:nth-of-type(5) > div,
+	[data-animation="fixed"] &:nth-of-type(5) > div,
+	[data-animation="opacity"] &:nth-of-type(5) > div {
+		background-image: url('../img/img-5.jpg');
+	}
+
+	@include MQ(L) {
+
+		h2 {
+			font-size: 4rem;
 			font-weight: 300;
+		}
+
+		[data-hijacking="on"] & {
+			opacity: 0;
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+
+			> div {
+				visibility: visible;
+			}
+		}
+
+		[data-hijacking="off"] & > div {
+			opacity: 0;
+		}
+
+		[data-animation="rotate"] & {
+			/* enable a 3D-space for children elements */
+			@include perspective(1800px);
+		}
+
+		[data-hijacking="on"][data-animation="rotate"] &:not(:first-of-type) {
+			@include perspective-origin(center 0);
+		}
+
+		[data-animation="scaleDown"] & > div,
+		[data-animation="gallery"] & > div,
+		[data-animation="catch"] & > div {
+			// box-shadow: 0 0 40px rgba(darken($color-1, 10%), .4);
+			box-shadow: 0 0 0 rgba(darken($color-1, 10%), .4);
+		}
+
+		[data-animation="opacity"] &.visible > div {
+			z-index: 1;
 		}
 	}
 }
 
-.cd-fixed-background {
-	position: relative;
-	padding: 3em 5% 0;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
-
-	h2, p {
-		color: $color-3;
-		@include font-smoothing;
+@include MQ(L) {
+	.cd-section:first-of-type > div::before {
+		display: none;
 	}
+}
 
-	h2 {
-		font-size: 2.4rem;
-		margin-bottom: 1em;
-	}
-
-	p {
-		line-height: 1.6;
-		font-family: $secondary-font;
-	}
-
-	.light-background h2, .light-background p {
-		color: $color-1;
-	}
-
-	.cd-content::after {
-		/* phone image on small devices */
-		content: '';
-		display: block;
-		width: 100%;
-		padding: 60% 0;
-		margin: 2em auto 0;
-	}
-
-	&.img-1 {
-		background-color: $color-5;
-
-		.cd-content::after {
-			background: url('../img/img-mobile-1.jpg') no-repeat;
-			background-size: 100% auto;
-		}
-	}
-
-	&.img-2 {
-		background-color: $color-3;
-
-		.cd-content::after {
-			background: url('../img/img-mobile-2.jpg') no-repeat;
-			background-size: 100% auto;
-		}
-	}
-
-	&.img-3 {
-		background-color: $color-1;
-
-		.cd-content::after {
-			background: url('../img/img-mobile-3.jpg') no-repeat;
-			background-size: 100% auto;
-		}
-	}
-
-	&.img-4 {
-		background-color: $color-4;
-
-		.cd-content::after {
-			background: url('../img/img-mobile-4.jpg') no-repeat;
-			background-size: 100% auto;
-		}
-	}
-
-	@include MQ(M) {
-		height: 100%;
-		padding: 0;
-
-		h2 {
-			font-size: 3.6rem;
-			font-weight: 300;
-		}
-
-		p {
-			font-size: 1.8rem;
-			line-height: 1.8;
-		}
-
-		.cd-content {
-			width: 50%;
-			position: absolute;
-			left: 5%;
-			@include center(y);
-		}
-
-		.cd-content::after {
-			display: none !important;
-		}
-
-		&.img-1 {
-			background-image: url('../img/img-1.jpg');
-		}
-
-		&.img-2 {
-			background-image: url('../img/img-2.jpg');
-		}
-
-		&.img-3 {
-			background-image: url('../img/img-3.jpg');
-		}
-
-		&.img-4 {
-			background-image: url('../img/img-4.jpg');
-		}
-	}
+.cd-section > div {
 
 	@include MQ(L) {
-		background-attachment: fixed;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		
+		/* Force Hardware Acceleration */
+		@include transform(translateZ(0));
+		@include backface-visibility(hidden);
 
-		.cd-content {
-			width: 40%;
-			left: 10%;
+		[data-hijacking="on"] & {
+			position: absolute;
+		}
+
+		[data-animation="rotate"] & {
+			@include transform-origin(center bottom);
 		}
 	}
 }
 
 .cd-vertical-nav {
+	/* lateral navigation */
 	position: fixed;
-	z-index: 2;
+	z-index: 1;
 	right: 3%;
 	@include center(y);
 	display: none;
@@ -214,8 +235,7 @@ Main Components
 		text-indent: 100%;
 		white-space: nowrap;
 
-		background: transparent url(../img/cd-icon-arrow.svg) no-repeat center center;
-		@include transition(opacity 0.2s 0s, visibility 0.2s 0s);
+		background: url(../img/cd-icon-arrow.svg) no-repeat center center;
 
 		&.cd-prev {
 			@include transform(rotate(180deg));
@@ -229,11 +249,7 @@ Main Components
 		}
 	}
 
-	@include MQ(XL) {
+	@include MQ(L) {
 		display: block;
 	}
-}
-
-.no-js .cd-vertical-nav {
-	display: none;
 }

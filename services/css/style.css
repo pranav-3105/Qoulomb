@@ -57,16 +57,18 @@ Main Components
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  font-size: 2.6rem;
+  font-size: 3rem;
+  color: #131d60;
+  font-weight: 700;
 }
 @media only screen and (min-width: 768px) {
   .cdc-section h1 {
-    font-size: 3.2rem;
+    font-size: 3.6rem;
   }
 }
 @media only screen and (min-width: 1170px) {
   .cdc-section h1 {
-    font-size: 4.2rem;
+    font-size: 5rem;
   }
 }
 
@@ -127,19 +129,37 @@ Main Components
 .cdc-half-block p {
   font-size: 1.8rem;
   line-height: 1.8;
+  color: #131d60;
 }
-.cdc-section:nth-of-type(2) .cdc-half-block:first-of-type {
+.cdc-section:nth-of-type(1) .cdc-half-block:first-of-type {
   background-image: url("../img/img-1.jpg");
   background-size: cover;
 }
-.cdc-section:nth-of-type(3) .cdc-half-block:first-of-type {
+.cdc-section:nth-of-type(2) .cdc-half-block:first-of-type {
   background-image: url("../img/img-2.jpg");
   background-size: cover;
 }
-.cdc-section:nth-of-type(4) .cdc-half-block:first-of-type {
+.cdc-section:nth-of-type(3) .cdc-half-block:first-of-type {
   background-image: url("../img/img-3.jpg");
   background-size: cover;
 }
+.cdc-section:nth-of-type(4) .cdc-half-block:first-of-type {
+  background-image: url("../img/img-4.jpg");
+  background-size: cover;
+}
+.cdc-section:nth-of-type(5) .cdc-half-block:first-of-type {
+  background-image: url("../img/img-5.jpg");
+  background-size: cover;
+}
+.cdc-section:nth-of-type(6) .cdc-half-block:first-of-type {
+  background-image: url("../img/img-6.jpg");
+  background-size: cover;
+}
+.cdc-section:nth-of-type(7) .cdc-half-block:first-of-type {
+  background-image: url("../img/img-7.jpg");
+  background-size: cover;
+}
+
 @media only screen and (min-width: 1170px) {
   .cdc-half-block {
     height: 100vh !important;
@@ -159,7 +179,7 @@ Main Components
     -o-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     width: 100%;
-    padding: 0 30%;
+    padding: 0 10%;
     font-size: 2.4rem;
   }
   .cdc-section:nth-of-type(even) .cdc-half-block:first-of-type, .cdc-section:nth-of-type(odd) .cdc-half-block:nth-of-type(2) {
@@ -225,4 +245,12 @@ Main Components
   .cdc-vertical-nav {
     display: block;
   }
+}
+
+.blank{
+  background: white;
+}
+
+#bgsect{
+  background: url("../img/main.jpeg");
 }

@@ -1,199 +1,183 @@
-jQuery(document).ready(function($){
+(function(){
+	//remove no-js class
+    removeClass(document.getElementsByTagName("html")[0], "no-js"); 
 
-	var productViewer = function(element) {
+    //Hero Slider - by CodyHouse.co
+	function HeroSlider( element ) {
 		this.element = element;
-		this.handleContainer = this.element.find('.cd-product-viewer-handle');
-		this.handleFill = this.handleContainer.children('.fill');
-		this.handle = this.handleContainer.children('.handle');
-		this.imageWrapper = this.element.find('.product-viewer');
-		this.slideShow = this.imageWrapper.children('.product-sprite');
-		this.frames = this.element.data('frame');
-		//increase this value to increase the friction while dragging on the image - it has to be bigger than zero
-		this.friction = this.element.data('friction');
-		this.visibleFrame = 0;
-		this.loaded = false;
-		this.animating = false;
-		this.xPosition = 0;
-		this.loadFrames();
-	} 
+		this.navigation = this.element.getElementsByClassName("js-cd-nav")[0];
+		this.navigationItems = this.navigation.getElementsByTagName('li');
+		this.marker = this.navigation.getElementsByClassName("js-cd-marker")[0];
+		this.slides = this.element.getElementsByClassName("js-cd-slide");
+		this.slidesNumber = this.slides.length;
+		this.newSlideIndex = 0;
+		this.oldSlideIndex = 0;
+		this.autoplay = hasClass(this.element, "js-cd-autoplay");
+		this.autoPlayId;
+		this.autoPlayDelay = 2000;
+		this.init();
+	};
 
-	productViewer.prototype.loadFrames = function() {
-		var self = this,
-			imageUrl = this.slideShow.data('image'),
-			newImg = $('<img/>');
-		this.loading('0.5');
-		//you need this to check if the image sprite has been loaded
-		newImg.attr('src', imageUrl).load(function() {
-			$(this).remove();
-  			self.loaded = true;
-  		}).each(function(){
-  			image = this;
-			if(image.complete) {
-		    	$(image).trigger('load');
-		  	}
+	HeroSlider.prototype.init = function() {
+		var self = this;
+		//upload video (if not on mobile devices)
+		this.uploadVideo();
+		//autoplay slider
+		this.setAutoplay();
+		//listen for the click event on the slider navigation
+		this.navigation.addEventListener('click', function(event){
+			if( event.target.tagName.toLowerCase() == 'div' )
+				return;
+			event.preventDefault();
+			var selectedSlide = event.target;
+			if( hasClass(event.target.parentElement, 'cd-selected') )
+				return;
+			self.oldSlideIndex = self.newSlideIndex;
+			self.newSlideIndex = Array.prototype.indexOf.call(self.navigationItems, event.target.parentElement);
+			self.newSlide();
+			self.updateNavigationMarker();
+			self.updateSliderNavigation();
+			self.setAutoplay();
 		});
-	}
 
-	productViewer.prototype.loading = function(percentage) {
-		var self = this;
-		transformElement(this.handleFill, 'scaleX('+ percentage +')');
-		setTimeout(function(){
-			if( self.loaded ){
-				//sprite image has been loaded
-				self.element.addClass('loaded');
-				transformElement(self.handleFill, 'scaleX(1)');
-				self.dragImage();
-				if(self.handle) self.dragHandle();
-			} else {
-				//sprite image has not been loaded - increase self.handleFill scale value
-				var newPercentage = parseFloat(percentage) + .1;
-				if ( newPercentage < 1 ) {
-					self.loading(newPercentage);
-				} else {
-					self.loading(parseFloat(percentage));
-				}
+		if(this.autoplay) {
+			// on hover - pause autoplay
+			this.element.addEventListener("mouseenter", function(){
+				clearInterval(self.autoPlayId);
+			});
+			this.element.addEventListener("mouseleave", function(){
+				self.setAutoplay();
+			});
+		}
+	};
+
+	HeroSlider.prototype.uploadVideo = function() {
+		var videoSlides = this.element.getElementsByClassName("js-cd-bg-video");
+		for( var i = 0; i < videoSlides.length; i++) {
+			if( videoSlides[i].offsetHeight > 0 ) {
+				// if visible - we are not on a mobile device 
+				var videoUrl = videoSlides[i].getAttribute("data-video");
+				videoSlides[i].innerHTML = "<video loop><source src='"+videoUrl+".mp4' type='video/mp4' /><source src='"+videoUrl+".webm' type='video/webm'/></video>";
+				// if the visible slide has a video - play it
+				if( hasClass(videoSlides[i].parentElement, "cd-hero__slide--selected") ) videoSlides[i].getElementsByTagName("video")[0].play();
 			}
-		}, 500);
-	}
-	//draggable funtionality - credits to http://css-tricks.com/snippets/jquery/draggable-without-jquery-ui/
-	productViewer.prototype.dragHandle = function() {
-		//implement handle draggability
+		}
+	};
+
+	HeroSlider.prototype.setAutoplay = function() {
 		var self = this;
-		self.handle.on('mousedown vmousedown', function (e) {
-	        self.handle.addClass('cd-draggable');
-	        var dragWidth = self.handle.outerWidth(),
-	            containerOffset = self.handleContainer.offset().left,
-	            containerWidth = self.handleContainer.outerWidth(),
-	            minLeft = containerOffset - dragWidth/2,
-	            maxLeft = containerOffset + containerWidth - dragWidth/2;
+		if(this.autoplay) {
+			clearInterval(self.autoPlayId);
+			self.autoPlayId = window.setInterval(function(){self.autoplaySlider()}, self.autoPlayDelay);
+		}
+	};
 
-	        self.xPosition = self.handle.offset().left + dragWidth - e.pageX;
-
-	        self.element.on('mousemove vmousemove', function (e) {
-	        	if( !self.animating) {
-	        		self.animating =  true;
-		        	( !window.requestAnimationFrame )
-		        		? setTimeout(function(){self.animateDraggedHandle(e, dragWidth, containerOffset, containerWidth, minLeft, maxLeft);}, 100)
-		        		: requestAnimationFrame(function(){self.animateDraggedHandle(e, dragWidth, containerOffset, containerWidth, minLeft, maxLeft);});
-	        	}
-	        }).one('mouseup vmouseup', function (e) {
-	            self.handle.removeClass('cd-draggable');
-	            self.element.off('mousemove vmousemove');
-	        });
-
-	        e.preventDefault();
-
-	    }).on('mouseup vmouseup', function (e) {
-	        self.handle.removeClass('cd-draggable');
-	    });
-	}
-
-	productViewer.prototype.animateDraggedHandle = function(e, dragWidth, containerOffset, containerWidth, minLeft, maxLeft) {
+	HeroSlider.prototype.autoplaySlider = function() {
+		this.oldSlideIndex = this.newSlideIndex;
 		var self = this;
-		var leftValue = e.pageX + self.xPosition - dragWidth;
-	    // constrain the draggable element to move inside his container
-	    if (leftValue < minLeft) {
-	        leftValue = minLeft;
-	    } else if (leftValue > maxLeft) {
-	        leftValue = maxLeft;
-	    }
+		if( this.newSlideIndex < this.slidesNumber - 1) {
+			this.newSlideIndex +=1;
+			this.newSlide();
+			
+		} else {
+			this.newSlideIndex = 0;
+			this.newSlide();
+		}
 
-	    var widthValue = Math.ceil( (leftValue + dragWidth / 2 - containerOffset) * 1000 / containerWidth)/10;
-	    self.visibleFrame = Math.ceil( (widthValue * (self.frames-1))/100 );
+		this.updateNavigationMarker();
+		this.updateSliderNavigation();
+	};
 
-	    //update image frame
-	    self.updateFrame();
-	    //update handle position
-	    $('.cd-draggable', self.handleContainer).css('left', widthValue + '%').one('mouseup vmouseup', function () {
-	        $(this).removeClass('cd-draggable');
-	    });
-
-	    self.animating = false;
-	}
-
-	productViewer.prototype.dragImage = function() {
-		//implement image draggability
+	HeroSlider.prototype.newSlide = function(direction) {
 		var self = this;
-		self.slideShow.on('mousedown vmousedown', function (e) {
-	        self.slideShow.addClass('cd-draggable');
-	        var containerOffset = self.imageWrapper.offset().left,
-	            containerWidth = self.imageWrapper.outerWidth(),
-	            minFrame = 0,
-	            maxFrame = self.frames - 1;
+		removeClass(this.slides[this.oldSlideIndex], "cd-hero__slide--selected cd-hero__slide--from-left cd-hero__slide--from-right");
+		addClass(this.slides[this.oldSlideIndex], "cd-hero__slide--is-moving");
+		setTimeout(function(){removeClass(self.slides[self.oldSlideIndex], "cd-hero__slide--is-moving");}, 500);
 
-	        self.xPosition = e.pageX;
+		for(var i=0; i < this.slidesNumber; i++) {
+			if( i < this.newSlideIndex && this.oldSlideIndex < this.newSlideIndex) {
+				addClass(this.slides[i], "cd-hero__slide--move-left");
+			} else if( i == this.newSlideIndex && this.oldSlideIndex < this.newSlideIndex) {
+				addClass(this.slides[i], "cd-hero__slide--selected cd-hero__slide--from-right");
+			} else if(i == this.newSlideIndex && this.oldSlideIndex > this.newSlideIndex) {
+				addClass(this.slides[i], "cd-hero__slide--selected cd-hero__slide--from-left");
+				removeClass(this.slides[i], "cd-hero__slide--move-left");
+			} else if( i > this.newSlideIndex && this.oldSlideIndex > this.newSlideIndex ) {
+				removeClass(this.slides[i], "cd-hero__slide--move-left");
+			}
+		}
 
-	        self.element.on('mousemove vmousemove', function (e) {
-	        	if( !self.animating) {
-	        		self.animating =  true;
-		        	( !window.requestAnimationFrame )
-		        		? setTimeout(function(){self.animateDraggedImage(e, containerOffset, containerWidth);}, 100)
-		        		: requestAnimationFrame(function(){self.animateDraggedImage(e, containerOffset, containerWidth);});
-		        }
-	        }).one('mouseup vmouseup', function (e) {
-	            self.slideShow.removeClass('cd-draggable');
-	            self.element.off('mousemove vmousemove');
-	            self.updateHandle();
-	        });
+		this.checkVideo();
 
-	        e.preventDefault();
+	};
 
-	    }).on('mouseup vmouseup', function (e) {
-	        self.slideShow.removeClass('cd-draggable');
-	    });
-	}
+	HeroSlider.prototype.updateNavigationMarker = function() {
+		removeClassPrefix(this.marker, 'item');
+		addClass(this.marker, "cd-hero__marker--item-"+ (Number(this.newSlideIndex) + 1));
+	};
 
-	productViewer.prototype.animateDraggedImage = function(e, containerOffset, containerWidth) {
-		var self = this;
-		var leftValue = self.xPosition - e.pageX;
-        var widthValue = Math.ceil( (leftValue) * 100 / ( containerWidth * self.friction ));
-        var frame = (widthValue * (self.frames-1))/100;
-        if( frame > 0 ) {
-        	frame = Math.floor(frame);
-        } else {
-        	frame = Math.ceil(frame);
-        }
-        var newFrame = self.visibleFrame + frame;
+	HeroSlider.prototype.updateSliderNavigation = function() {
+		removeClass(this.navigationItems[this.oldSlideIndex], 'cd-selected');
+		addClass(this.navigationItems[this.newSlideIndex], 'cd-selected');
+	};
 
-        if (newFrame < 0) {
-            newFrame = self.frames - 1;
-        } else if (newFrame > self.frames - 1) {
-            newFrame = 0;
-        }
+	HeroSlider.prototype.checkVideo = function() {
+		//check if a video outside the viewport is playing - if yes, pause it
+		var hiddenVideo = this.slides[this.oldSlideIndex].getElementsByTagName('video');
+		if( hiddenVideo.length ) hiddenVideo[0].pause();
 
-        if( newFrame != self.visibleFrame ) {
-        	self.visibleFrame = newFrame;
-        	self.updateFrame();
-        	self.xPosition = e.pageX;
-        }
+		//check if the select slide contains a video element - if yes, play the video
+		var visibleVideo = this.slides[this.newSlideIndex].getElementsByTagName('video');
+		if( visibleVideo.length ) visibleVideo[0].play();
+	};
 
-        self.animating =  false;
-	}
-
-	productViewer.prototype.updateHandle = function() {
-		if(this.handle) {
-			var widthValue = 100*this.visibleFrame/this.frames;
-			this.handle.animate({'left': widthValue + '%'}, 200);
+	var heroSliders = document.getElementsByClassName("js-cd-hero");
+	if( heroSliders.length > 0 ) {
+		for( var i = 0; i < heroSliders.length; i++) {
+			(function(i){
+				new HeroSlider(heroSliders[i])
+			})(i);
 		}
 	}
 
-	productViewer.prototype.updateFrame = function() {
-		var transformValue = - (100 * this.visibleFrame/this.frames);
-		transformElement(this.slideShow, 'translateX('+transformValue+'%)');
-	}
-
-	function transformElement(element, value) {
-		element.css({
-			'-moz-transform': value,
-		    '-webkit-transform': value,
-			'-ms-transform': value,
-			'-o-transform': value,
-			'transform': value,
-		});
-	}
-
-	var productToursWrapper = $('.cd-product-viewer-wrapper');
-	productToursWrapper.each(function(){
-		new productViewer($(this));
+	//on mobile - open/close primary navigation clicking/tapping the menu icon 
+	document.getElementsByClassName('js-cd-header__nav')[0].addEventListener('click', function(event){
+		if(event.target.tagName.toLowerCase() == 'nav') {
+			var dropdown = this.getElementsByTagName('ul')[0];
+			toggleClass(dropdown, 'cd-is-visible', !hasClass(dropdown, 'cd-is-visible'));
+		}
 	});
-});
+
+	function removeClassPrefix(el, prefix) {
+		//remove all classes starting with 'prefix'
+        var classes = el.className.split(" ").filter(function(c) {
+            return c.indexOf(prefix) < 0;
+        });
+        el.className = classes.join(" ");
+	};
+
+	//class manipulations - needed if classList is not supported
+	function hasClass(el, className) {
+	  	if (el.classList) return el.classList.contains(className);
+	  	else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+	}
+	function addClass(el, className) {
+		var classList = className.split(' ');
+	 	if (el.classList) el.classList.add(classList[0]);
+	 	else if (!hasClass(el, classList[0])) el.className += " " + classList[0];
+	 	if (classList.length > 1) addClass(el, classList.slice(1).join(' '));
+	}
+	function removeClass(el, className) {
+		var classList = className.split(' ');
+	  	if (el.classList) el.classList.remove(classList[0]);	
+	  	else if(hasClass(el, classList[0])) {
+	  		var reg = new RegExp('(\\s|^)' + classList[0] + '(\\s|$)');
+	  		el.className=el.className.replace(reg, ' ');
+	  	}
+	  	if (classList.length > 1) removeClass(el, classList.slice(1).join(' '));
+	}
+	function toggleClass(el, className, bool) {
+		if(bool) addClass(el, className);
+		else removeClass(el, className);
+	}
+})();
